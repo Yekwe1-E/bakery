@@ -105,7 +105,7 @@
         // Load featured products
         async function loadFeaturedProducts() {
             try {
-                const response = await fetch('http://localhost:3000/api/products?limit=4');
+                const response = await fetch('/api/products?limit=4');
                 const products = await response.json();
                 
                 const container = document.getElementById('featuredProducts');
