@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sweet Crumbs Bakery | Fresh Baked Goods</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">Sweet Crumbs</a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li id="authLinks">
+                    <a href="login.html">Login</a>
+                </li>
+                <li>
+                    <a href="cart.html" class="cart-icon">
+                        🛒
+                        <span class="cart-count" id="cartCount">0</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="mobile-menu" onclick="toggleMenu()">☰</div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Fresh from the Oven to Your Heart</h1>
+            <p>Handcrafted baked goods made with love, using only the finest ingredients. Experience the taste of perfection.</p>
+            <a href="shop.html" class="cta-button">Shop Now</a>
+        </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section class="container">
+        <h2 class="section-title">Our Favorites</h2>
+        <div class="products-grid" id="featuredProducts">
+            <!-- Products loaded via JavaScript -->
+        </div>
+        <div class="text-center mt-2">
+            <a href="shop.html" class="cta-button">View All Products</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="container" id="about">
+        <div style="background: white; padding: 3rem; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center;">
+            <h2 class="section-title">Why Choose Us?</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 2rem;">
+                <div>
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">🌾</div>
+                    <h3>Fresh Ingredients</h3>
+                    <p>We source only the finest local ingredients for our baked goods.</p>
+                </div>
+                <div>
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">👨‍🍳</div>
+                    <h3>Master Bakers</h3>
+                    <p>Our team of expert bakers brings decades of experience.</p>
+                </div>
+                <div>
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">❤️</div>
+                    <h3>Made with Love</h3>
+                    <p>Every item is crafted with care and attention to detail.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Sweet Crumbs Bakery</h3>
+                <p>Bringing joy through delicious baked goods since 2020.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>📍 123 Baker Street, Lagos</p>
+                <p>📞 +234 123 456 7890</p>
+                <p>✉️ hello@sweetcrumbs.com</p>
+            </div>
+            <div class="footer-section">
+                <h3>Opening Hours</h3>
+                <p>Monday - Friday: 7am - 8pm</p>
+                <p>Saturday: 8am - 9pm</p>
+                <p>Sunday: 8am - 6pm</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Sweet Crumbs Bakery. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/cart.js"></script>
+    <script>
+        // Load featured products
+        async function loadFeaturedProducts() {
+            try {
+                const response = await fetch('http://localhost:3000/api/products?limit=4');
+                const products = await response.json();
+                
+                const container = document.getElementById('featuredProducts');
+                container.innerHTML = products.slice(0, 4).map(product => `
+                    <div class="product-card">
+                        <img src="${product.image}" alt="${product.name}" class="product-image">
+                        <div class="product-info">
+                            <div class="product-category">${product.category_name}</div>
+                            <h3 class="product-name">${product.name}</h3>
+                            <p class="product-description">${product.description.substring(0, 60)}...</p>
+                            <div class="product-footer">
+                                <span class="product-price">${product.price.toLocaleString()}</span>
+                                <button class="add-to-cart" onclick="addToCart(${product.id}, '${product.name}', ${product.price}, '${product.image}')">
+                                    Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading products:', error);
+            }
+        }
+
+        loadFeaturedProducts();
+        updateCartCount();
+        updateAuthLinks();
+    </script>
+</body>
+</html>

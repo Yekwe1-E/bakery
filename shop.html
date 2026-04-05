@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop | Sweet Crumbs Bakery</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">Sweet Crumbs</a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html" class="active">Shop</a></li>
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+                <li id="authLinks"><a href="login.html">Login</a></li>
+                <li>
+                    <a href="cart.html" class="cart-icon">
+                        🛒
+                        <span class="cart-count" id="cartCount">0</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="mobile-menu" onclick="toggleMenu()">☰</div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1 class="section-title">Our Products</h1>
+        
+        <div style="display: flex; justify-content: center; margin-bottom: 2rem;">
+            <input type="text" class="search-box" id="searchInput" placeholder="Search products..." onkeyup="filterProducts()">
+        </div>
+
+        <div class="filters" id="categoryFilters">
+            <button class="filter-btn active" onclick="filterByCategory('all')">All</button>
+            <!-- Categories loaded dynamically -->
+        </div>
+
+        <div class="products-grid" id="productsGrid">
+            <!-- Products loaded via JavaScript -->
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Sweet Crumbs Bakery. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/shop.js"></script>
+    <script>
+        updateCartCount();
+        updateAuthLinks();
+    </script>
+</body>
+</html>

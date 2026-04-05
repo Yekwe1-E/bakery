@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart | Sweet Crumbs Bakery</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">Sweet Crumbs</a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="cart.html" class="active">Cart</a></li>
+                <li id="authLinks"><a href="login.html">Login</a></li>
+            </ul>
+            <div class="mobile-menu" onclick="toggleMenu()">☰</div>
+        </div>
+    </nav>
+
+    <div class="cart-container">
+        <h1 class="section-title">Your Shopping Cart</h1>
+        
+        <div id="cartContent">
+            <!-- Cart items loaded via JavaScript -->
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/cart.js"></script>
+    <script>
+        displayCart();
+        updateAuthLinks();
+    </script>
+</body>
+</html>
