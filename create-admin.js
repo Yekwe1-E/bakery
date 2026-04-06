@@ -11,7 +11,7 @@ const mysql = require('mysql2/promise');
 require('dotenv').config();
 
 const ADMIN_NAME     = 'Emmanuel Yekwe';
-const ADMIN_EMAIL    = 'emmnuelwilsoon630@gmail.com'; // ← change if desired
+const ADMIN_EMAIL    = 'emmanuelwilson630@gmail.com'; // ← change if desired
 const ADMIN_PASSWORD = 'Doubra18me';             // ← CHANGE THIS before running!
 
 async function createAdmin() {

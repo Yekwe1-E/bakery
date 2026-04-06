@@ -12,21 +12,34 @@ const pool = require('./config/database');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// ── Auto-migration: runs on every startup, safe to run multiple times ──
+// ── Admin credentials ──
+const ADMIN_NAME     = 'Emmanuel Yekwe';
+const ADMIN_EMAIL    = 'emmanuelwilson630@gmail.com';
+const ADMIN_PASSWORD = 'Doubra18me';
+
+// ── Safe migration: works on ALL MySQL versions ──
 async function runMigrations() {
     try {
-        // 1. Add role column if it doesn't exist
-        await pool.execute(`
-            ALTER TABLE users 
-            ADD COLUMN IF NOT EXISTS role ENUM('user','admin') NOT NULL DEFAULT 'user'
+        // Check if role column already exists (compatible with all MySQL versions)
+        const [cols] = await pool.execute(`
+            SELECT COUNT(*) as count
+            FROM INFORMATION_SCHEMA.COLUMNS
+            WHERE TABLE_SCHEMA = DATABASE()
+              AND TABLE_NAME   = 'users'
+              AND COLUMN_NAME  = 'role'
         `);
-        console.log('✅ Migration: role column ready');
 
-        // 2. Create admin user if not exists
-        const ADMIN_NAME     = 'Emmanuel Yekwe';
-        const ADMIN_EMAIL    = 'emmnuelwilsoon630@gmail.com';
-        const ADMIN_PASSWORD = 'Doubra18me';
+        if (cols[0].count === 0) {
+            await pool.execute(`
+                ALTER TABLE users
+                ADD COLUMN role ENUM('user','admin') NOT NULL DEFAULT 'user'
+            `);
+            console.log('✅ Migration: role column added');
+        } else {
+            console.log('ℹ️  Migration: role column already exists');
+        }
 
+        // Create admin if not exists
         const [existing] = await pool.execute(
             'SELECT id FROM users WHERE email = ?', [ADMIN_EMAIL]
         );
@@ -39,16 +52,30 @@ async function runMigrations() {
             );
             console.log('✅ Admin user created:', ADMIN_EMAIL);
         } else {
-            console.log('ℹ️  Admin user already exists, skipping.');
+            // Ensure the existing user has admin role
+            await pool.execute(
+                'UPDATE users SET role = ? WHERE email = ?',
+                ['admin', ADMIN_EMAIL]
+            );
+            console.log('ℹ️  Admin user already exists — role enforced.');
         }
+
+        return { success: true, message: 'Setup complete. Admin ready.' };
     } catch (err) {
-        console.error('⚠️  Migration warning:', err.message);
+        console.error('❌ Migration error:', err.message);
+        return { success: false, message: err.message };
     }
 }
 
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+// ── Manual setup endpoint — visit this URL in browser if login fails ──
+app.get('/api/setup', async (req, res) => {
+    const result = await runMigrations();
+    res.json(result);
+});
 
 // API Routes
 app.use('/api/auth', authRoutes);
