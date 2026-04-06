@@ -1,6 +1,5 @@
 const express = require('express');
 const { body, validationResult } = require('express-validator');
-const axios = require('axios');
 const pool = require('../config/database');
 const { authMiddleware, adminMiddleware } = require('../middleware/auth');
 
@@ -39,8 +38,8 @@ router.post('/', authMiddleware, [
 
         // Create order
         const [orderResult] = await connection.execute(
-            'INSERT INTO orders (user_id, total, customer_name, address, phone) VALUES (?, ?, ?, ?, ?)',
-            [userId, total, customer_name, address, phone]
+            'INSERT INTO orders (user_id, total, customer_name, address, phone, status) VALUES (?, ?, ?, ?, ?, ?)',
+            [userId, total, customer_name, address, phone, 'pending']
         );
 
         const orderId = orderResult.insertId;
@@ -66,16 +65,10 @@ router.post('/', authMiddleware, [
 
         await connection.commit();
 
-        // Get user email for Paystack
-        const [user] = await pool.execute('SELECT email FROM users WHERE id = ?', [userId]);
-
         res.status(201).json({
             message: 'Order placed successfully',
             orderId,
-            total,
-            amountKobo: Math.round(total * 100),
-            email: user[0].email,
-            publicKey: process.env.PAYSTACK_PUBLIC_KEY
+            total
         });
 
     } catch (error) {
@@ -103,61 +96,6 @@ router.get('/my-orders', authMiddleware, async (req, res) => {
         res.json(orders);
     } catch (error) {
         res.status(500).json({ message: 'Error fetching orders' });
-    }
-});
-
-// Verify Paystack payment
-router.get('/verify/:reference', authMiddleware, async (req, res) => {
-    const { reference } = req.params;
-
-    // Demo Mode: Handle mock references if real keys are missing
-    if (reference.startsWith('MOCK_REF_') && (!process.env.PAYSTACK_SECRET_KEY || process.env.PAYSTACK_SECRET_KEY.includes('xxxxxxxx'))) {
-        try {
-            const orderId = reference.split('_')[2];
-            
-            // Update order status to paid
-            await pool.execute(
-                'UPDATE orders SET status = "paid" WHERE id = ?',
-                [orderId]
-            );
-
-            return res.json({ 
-                message: 'Demo payment verified successfully (MOCK)', 
-                status: 'success',
-                demo: true 
-            });
-        } catch (error) {
-            console.error('Demo verification error:', error);
-            return res.status(500).json({ message: 'Error processing demo payment' });
-        }
-    }
-
-    try {
-        const response = await axios.get(
-            `https://api.paystack.co/transaction/verify/${reference}`,
-            {
-                headers: {
-                    Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`
-                }
-            }
-        );
-
-        if (response.data.status && response.data.data.status === 'success') {
-            const orderId = response.data.data.metadata.order_id;
-            
-            // Update order status
-            await pool.execute(
-                'UPDATE orders SET status = "paid" WHERE id = ?',
-                [orderId]
-            );
-
-            res.json({ message: 'Payment verified successfully', status: 'success' });
-        } else {
-            res.status(400).json({ message: 'Payment verification failed', status: 'failed' });
-        }
-    } catch (error) {
-        console.error('Paystack verification error:', error.response ? error.response.data : error.message);
-        res.status(500).json({ message: 'Error verifying payment' });
     }
 });
 

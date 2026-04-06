@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout | NDU Pastry</title>
     <link rel="stylesheet" href="css/style.css">
-    <script src="https://js.paystack.co/v1/inline.js"></script>
 </head>
 <body>
     <nav class="navbar">
@@ -103,7 +102,7 @@
             
             const submitBtn = document.getElementById('submitBtn');
             submitBtn.disabled = true;
-            submitBtn.innerHTML = '<span class="loading"></span> Initializing Order...';
+            submitBtn.innerHTML = '<span class="loading"></span> Placing Order...';
 
             const cart = JSON.parse(localStorage.getItem('cart')) || [];
             const orderData = {
@@ -117,7 +116,6 @@
             };
 
             try {
-                // 1. Create order in backend
                 const response = await fetch('/api/orders', {
                     method: 'POST',
                     headers: {
@@ -130,8 +128,9 @@
                 const data = await response.json();
 
                 if (response.ok) {
-                    // 2. Trigger Paystack payment
-                    payWithPaystack(data);
+                    showAlert('Order placed successfully! Thank you for your purchase.', 'success');
+                    localStorage.removeItem('cart');
+                    setTimeout(() => window.location.href = 'index.html', 3000);
                 } else {
                     throw new Error(data.message || 'Failed to place order');
                 }
@@ -141,79 +140,6 @@
                 submitBtn.textContent = 'Place Order';
             }
         });
-
-        function payWithPaystack(orderInfo) {
-            // Demo Mode Check: If key is still the placeholder, simulate payment
-            if (!orderInfo.publicKey || orderInfo.publicKey.includes('xxxxxxxx')) {
-                showAlert('Demo Mode: Simulating secure payment process...', 'info');
-                
-                const submitBtn = document.getElementById('submitBtn');
-                submitBtn.innerHTML = '<span class="loading"></span> Processing Demo Payment...';
-
-                setTimeout(() => {
-                    // Generate a mock reference for the backend to recognize
-                    const mockRef = `MOCK_REF_${orderInfo.orderId}_${Date.now()}`;
-                    verifyPayment(mockRef);
-                }, 2000);
-                return;
-            }
-
-            const handler = PaystackPop.setup({
-                key: orderInfo.publicKey,
-                email: orderInfo.email,
-                amount: orderInfo.amountKobo,
-                currency: 'NGN',
-                ref: 'ORD-' + orderInfo.orderId + '-' + Math.floor((Math.random() * 1000000000) + 1),
-                metadata: {
-                    order_id: orderInfo.orderId,
-                    custom_fields: [
-                        {
-                            display_name: "Customer Name",
-                            variable_name: "customer_name",
-                            value: document.getElementById('customerName').value
-                        }
-                    ]
-                },
-                callback: function(response) {
-                    // 3. Verify payment with backend
-                    verifyPayment(response.reference);
-                },
-                onClose: function() {
-                    const submitBtn = document.getElementById('submitBtn');
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = 'Place Order';
-                    showAlert('Payment cancelled', 'error');
-                }
-            });
-            handler.openIframe();
-        }
-
-        async function verifyPayment(reference) {
-            const submitBtn = document.getElementById('submitBtn');
-            submitBtn.innerHTML = '<span class="loading"></span> Verifying Payment...';
-
-            try {
-                const response = await fetch(`/api/orders/verify/${reference}`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-
-                const data = await response.json();
-
-                if (response.ok) {
-                    showAlert('Order placed and payment verified! Thank you for your purchase.', 'success');
-                    localStorage.removeItem('cart');
-                    setTimeout(() => window.location.href = 'index.html', 3000);
-                } else {
-                    throw new Error(data.message || 'Payment verification failed');
-                }
-            } catch (error) {
-                showAlert(error.message, 'error');
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Retry Payment Verification';
-            }
-        }
 
         loadOrderSummary();
         updateAuthLinks();
