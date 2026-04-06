@@ -18,8 +18,15 @@ const authMiddleware = (req, res, next) => {
     }
 };
 
+const adminMiddleware = (req, res, next) => {
+    if (!req.user || req.user.role !== 'admin') {
+        return res.status(403).json({ message: 'Access denied. Admin only.' });
+    }
+    next();
+};
+
 const generateToken = (userId, role = 'user') => {
     return jwt.sign({ userId, role }, JWT_SECRET, { expiresIn: '24h' });
 };
 
-module.exports = { authMiddleware, generateToken, JWT_SECRET };
+module.exports = { authMiddleware, adminMiddleware, generateToken, JWT_SECRET };
