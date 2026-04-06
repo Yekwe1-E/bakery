@@ -35,12 +35,12 @@ router.post('/register', [
             [name, email, hashedPassword]
         );
 
-        const token = generateToken(result.insertId);
+        const token = generateToken(result.insertId, 'user');
 
         res.status(201).json({
             message: 'User registered successfully',
             token,
-            user: { id: result.insertId, name, email }
+            user: { id: result.insertId, name, email, role: 'user' }
         });
     } catch (error) {
         console.error('Registration error:', error);
@@ -74,12 +74,12 @@ router.post('/login', [
             return res.status(400).json({ message: 'Invalid credentials' });
         }
 
-        const token = generateToken(user.id);
+        const token = generateToken(user.id, user.role);
 
         res.json({
             message: 'Login successful',
             token,
-            user: { id: user.id, name: user.name, email: user.email }
+            user: { id: user.id, name: user.name, email: user.email, role: user.role }
         });
     } catch (error) {
         console.error('Login error:', error);

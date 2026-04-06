@@ -18,8 +18,8 @@ const authMiddleware = (req, res, next) => {
     }
 };
 
-const generateToken = (userId) => {
-    return jwt.sign({ userId }, JWT_SECRET, { expiresIn: '24h' });
+const generateToken = (userId, role = 'user') => {
+    return jwt.sign({ userId, role }, JWT_SECRET, { expiresIn: '24h' });
 };
 
 module.exports = { authMiddleware, generateToken, JWT_SECRET };
