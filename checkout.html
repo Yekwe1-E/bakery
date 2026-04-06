@@ -143,6 +143,21 @@
         });
 
         function payWithPaystack(orderInfo) {
+            // Demo Mode Check: If key is still the placeholder, simulate payment
+            if (!orderInfo.publicKey || orderInfo.publicKey.includes('xxxxxxxx')) {
+                showAlert('Demo Mode: Simulating secure payment process...', 'info');
+                
+                const submitBtn = document.getElementById('submitBtn');
+                submitBtn.innerHTML = '<span class="loading"></span> Processing Demo Payment...';
+
+                setTimeout(() => {
+                    // Generate a mock reference for the backend to recognize
+                    const mockRef = `MOCK_REF_${orderInfo.orderId}_${Date.now()}`;
+                    verifyPayment(mockRef);
+                }, 2000);
+                return;
+            }
+
             const handler = PaystackPop.setup({
                 key: orderInfo.publicKey,
                 email: orderInfo.email,

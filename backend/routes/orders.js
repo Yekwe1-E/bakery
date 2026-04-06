@@ -110,6 +110,28 @@ router.get('/my-orders', authMiddleware, async (req, res) => {
 router.get('/verify/:reference', authMiddleware, async (req, res) => {
     const { reference } = req.params;
 
+    // Demo Mode: Handle mock references if real keys are missing
+    if (reference.startsWith('MOCK_REF_') && (!process.env.PAYSTACK_SECRET_KEY || process.env.PAYSTACK_SECRET_KEY.includes('xxxxxxxx'))) {
+        try {
+            const orderId = reference.split('_')[2];
+            
+            // Update order status to paid
+            await pool.execute(
+                'UPDATE orders SET status = "paid" WHERE id = ?',
+                [orderId]
+            );
+
+            return res.json({ 
+                message: 'Demo payment verified successfully (MOCK)', 
+                status: 'success',
+                demo: true 
+            });
+        } catch (error) {
+            console.error('Demo verification error:', error);
+            return res.status(500).json({ message: 'Error processing demo payment' });
+        }
+    }
+
     try {
         const response = await axios.get(
             `https://api.paystack.co/transaction/verify/${reference}`,
