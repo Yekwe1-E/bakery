@@ -1,0 +1,229 @@
+{
+  "orders": [
+    {
+      "id": 1,
+      "user_id": 1,
+      "total": "2500.00",
+      "status": "confirmed",
+      "customer_name": "Emmanuel Ayibadoubra Yekwe",
+      "address": "Ending pele, police station road, Amassoma",
+      "phone": "+2348165325410",
+      "created_at": "2026-04-05T16:37:48.000Z"
+    },
+    {
+      "id": 2,
+      "user_id": 1,
+      "total": "8700.00",
+      "status": "confirmed",
+      "customer_name": "Emmanuel Ayibadoubra Yekwe",
+      "address": "Ending pele, police station road, Amassoma",
+      "phone": "+2348165325410",
+      "created_at": "2026-04-05T16:44:58.000Z"
+    },
+    {
+      "id": 3,
+      "user_id": 4,
+      "total": "7500.00",
+      "status": "confirmed",
+      "customer_name": "Odoh Ozioma Stella",
+      "address": "Amasoma, Bayelsa State",
+      "phone": "09137711768",
+      "created_at": "2026-04-05T18:30:37.000Z"
+    },
+    {
+      "id": 4,
+      "user_id": 6,
+      "total": "10500.00",
+      "status": "confirmed",
+      "customer_name": "De Feaz",
+      "address": "Chief Road junction, Agudama epie, Yenagoa Bayelsa",
+      "phone": "+2349040356809",
+      "created_at": "2026-04-05T19:12:56.000Z"
+    },
+    {
+      "id": 5,
+      "user_id": 6,
+      "total": "10500.00",
+      "status": "confirmed",
+      "customer_name": "De Feaz",
+      "address": "Chief Road junction, Agudama epie, Yenagoa Bayelsa",
+      "phone": "+2349040356809",
+      "created_at": "2026-04-05T19:13:19.000Z"
+    },
+    {
+      "id": 6,
+      "user_id": 6,
+      "total": "7500.00",
+      "status": "confirmed",
+      "customer_name": "De feaz",
+      "address": "Agudama epie Yenagoa Bayelsa",
+      "phone": "+2349040356809",
+      "created_at": "2026-04-05T19:22:44.000Z"
+    },
+    {
+      "id": 7,
+      "user_id": 11,
+      "total": "7500.00",
+      "status": "confirmed",
+      "customer_name": "Test User",
+      "address": "10 Bakery Lane, Lagos",
+      "phone": "+234 812 345 6789",
+      "created_at": "2026-04-06T16:27:11.000Z"
+    },
+    {
+      "id": 8,
+      "user_id": 10,
+      "total": "7500.00",
+      "status": "confirmed",
+      "customer_name": "Emmanuel Ayibadoubra Yekwe",
+      "address": "Ending pele, police station road, Amassoma",
+      "phone": "+2348165325410",
+      "created_at": "2026-04-06T17:06:52.000Z"
+    },
+    {
+      "id": 9,
+      "user_id": 12,
+      "total": "8200.00",
+      "status": "delivered",
+      "customer_name": "Emmanuel Ayibadoubra Yekwe",
+      "address": "Ending pele, police station road, Amassoma",
+      "phone": "+2348165325410",
+      "created_at": "2026-04-08T14:51:03.000Z"
+    }
+  ],
+  "order_items": [
+    {
+      "id": 1,
+      "order_id": 1,
+      "product_id": 3,
+      "quantity": 1,
+      "price": "2500.00"
+    },
+    {
+      "id": 2,
+      "order_id": 2,
+      "product_id": 2,
+      "quantity": 1,
+      "price": "7500.00"
+    },
+    {
+      "id": 3,
+      "order_id": 2,
+      "product_id": 4,
+      "quantity": 1,
+      "price": "1200.00"
+    },
+    {
+      "id": 4,
+      "order_id": 3,
+      "product_id": 2,
+      "quantity": 1,
+      "price": "7500.00"
+    },
+    {
+      "id": 5,
+      "order_id": 4,
+      "product_id": 4,
+      "quantity": 1,
+      "price": "1200.00"
+    },
+    {
+      "id": 6,
+      "order_id": 4,
+      "product_id": 5,
+      "quantity": 1,
+      "price": "800.00"
+    },
+    {
+      "id": 7,
+      "order_id": 4,
+      "product_id": 1,
+      "quantity": 1,
+      "price": "8500.00"
+    },
+    {
+      "id": 8,
+      "order_id": 5,
+      "product_id": 4,
+      "quantity": 1,
+      "price": "1200.00"
+    },
+    {
+      "id": 9,
+      "order_id": 5,
+      "product_id": 5,
+      "quantity": 1,
+      "price": "800.00"
+    },
+    {
+      "id": 10,
+      "order_id": 5,
+      "product_id": 1,
+      "quantity": 1,
+      "price": "8500.00"
+    },
+    {
+      "id": 11,
+      "order_id": 6,
+      "product_id": 2,
+      "quantity": 1,
+      "price": "7500.00"
+    },
+    {
+      "id": 12,
+      "order_id": 7,
+      "product_id": 28,
+      "quantity": 1,
+      "price": "6000.00"
+    },
+    {
+      "id": 13,
+      "order_id": 7,
+      "product_id": 26,
+      "quantity": 1,
+      "price": "1500.00"
+    },
+    {
+      "id": 14,
+      "order_id": 8,
+      "product_id": 26,
+      "quantity": 1,
+      "price": "1500.00"
+    },
+    {
+      "id": 15,
+      "order_id": 8,
+      "product_id": 28,
+      "quantity": 1,
+      "price": "6000.00"
+    },
+    {
+      "id": 16,
+      "order_id": 9,
+      "product_id": 17,
+      "quantity": 1,
+      "price": "3000.00"
+    },
+    {
+      "id": 17,
+      "order_id": 9,
+      "product_id": 21,
+      "quantity": 1,
+      "price": "1500.00"
+    },
+    {
+      "id": 18,
+      "order_id": 9,
+      "product_id": 15,
+      "quantity": 1,
+      "price": "1500.00"
+    },
+    {
+      "id": 19,
+      "order_id": 9,
+      "product_id": 16,
+      "quantity": 1,
+      "price": "2200.00"
+    }
+  ]
+}

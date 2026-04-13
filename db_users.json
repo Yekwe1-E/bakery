@@ -1,0 +1,152 @@
+[
+  {
+    "id": 1,
+    "name": "Emmanuel Yekwe",
+    "email": "emmanuelwilson63@gmail.com",
+    "phone": null,
+    "password_hash": "$2a$10$hMuC4SaIMOY2y8jgJsomVugOGsFFWcEpARNXG9vmKitfI.MSR4hNy",
+    "created_at": "2026-04-05T15:25:06.000Z",
+    "role": "user",
+    "is_blocked": 0
+  },
+  {
+    "id": 2,
+    "name": "Yekorogha Meshach",
+    "email": "meshachyekaragha@gmail.com",
+    "phone": null,
+    "password_hash": "$2a$10$SH4ELCAMM8Z7XjF5EoLxXe/lWPcjcw3mu235MfYedmyWYxf2eXFja",
+    "created_at": "2026-04-05T16:48:45.000Z",
+    "role": "user",
+    "is_blocked": 0
+  },
+  {
+    "id": 3,
+    "name": "Pekahiah",
+    "email": "pekanaiah@gmail.com",
+    "phone": null,
+    "password_hash": "$2a$10$FjuhfMva/PAadG88i6q0mO4RFzdN8ooOu8mwNNLgPZ/OcEMiHMNKq",
+    "created_at": "2026-04-05T17:53:49.000Z",
+    "role": "user",
+    "is_blocked": 0
+  },
+  {
+    "id": 4,
+    "name": "Odoh Ozioma Stella",
+    "email": "stellaxy2019@yahoo.com",
+    "phone": null,
+    "password_hash": "$2a$10$6xNlNR/ZO3ouu8az7IiIhe6loJs51nrQnTXcSQMutT8SeF.5BO5hm",
+    "created_at": "2026-04-05T18:27:08.000Z",
+    "role": "user",
+    "is_blocked": 0
+  },
+  {
+    "id": 5,
+    "name": "EMEDIONG ELIJAH",
+    "email": "emediongelijah2003@gmail.com",
+    "phone": null,
+    "password_hash": "$2a$10$HxbH7sQEtwVTyrssIPawxehtORbQEyCUneut3Q2F293xODprnGgMS",
+    "created_at": "2026-04-05T18:36:22.000Z",
+    "role": "user",
+    "is_blocked": 0
+  },
+  {
+    "id": 6,
+    "name": "De feaz",
+    "email": "wd6811795@gmail.com",
+    "phone": null,
+    "password_hash": "$2a$10$09SL2eiz.Cs4dvCcmAKb1.A0ukscIZtmmZ6I1cilGepiSxwbWFP0a",
+    "created_at": "2026-04-05T19:08:45.000Z",
+    "role": "user",
+    "is_blocked": 0
+  },
+  {
+    "id": 7,
+    "name": "Ojiguor OgheneMarho Samuel",
+    "email": "samuelmaro1234@gmail.com",
+    "phone": null,
+    "password_hash": "$2a$10$po.vvYRI5zwA7WrqmHzC4uP7zk80soQmPAd4hlYw6xnG.4cPqIInS",
+    "created_at": "2026-04-05T19:35:22.000Z",
+    "role": "user",
+    "is_blocked": 0
+  },
+  {
+    "id": 8,
+    "name": "JOHN ISAAC",
+    "email": "bossbruiser11@gmail.com",
+    "phone": null,
+    "password_hash": "$2a$10$skXXR9mYT3rLLr7FYXmMgun8COX0WrbjUlTbrj7y1DeP4V0w1AOyq",
+    "created_at": "2026-04-05T19:40:38.000Z",
+    "role": "user",
+    "is_blocked": 0
+  },
+  {
+    "id": 9,
+    "name": "Uroupa favour",
+    "email": "favouribakeden@gmail.com",
+    "phone": null,
+    "password_hash": "$2a$10$tivcEFNiSlpDHXADM3psQ.DMI4jdzwx1PDvysg.hhZMOnG26bdnUy",
+    "created_at": "2026-04-05T20:21:14.000Z",
+    "role": "user",
+    "is_blocked": 0
+  },
+  {
+    "id": 10,
+    "name": "Admin Emma",
+    "email": "emmanuelwilson630@gmail.com",
+    "phone": "0700ADMIN01",
+    "password_hash": "$2a$10$LMko8C8NaThQnpNeB5DMb.wIYAlKn4oh2DP44k87G5QiZo3S8PfuK",
+    "created_at": "2026-04-06T14:48:56.000Z",
+    "role": "admin",
+    "is_blocked": 0
+  },
+  {
+    "id": 11,
+    "name": "Test User",
+    "email": "test@example.com",
+    "phone": null,
+    "password_hash": "$2a$10$W4SLM8FXXG/Cug23F8/9pOZUPTvo0m3LXrSKoRvjsYNxuU.E4hKxS",
+    "created_at": "2026-04-06T16:26:10.000Z",
+    "role": "user",
+    "is_blocked": 0
+  },
+  {
+    "id": 12,
+    "name": "unenobong mary michael",
+    "email": "abasiakama4@gemail.com",
+    "phone": null,
+    "password_hash": "$2a$10$DME7gCPoSuoBmyxEDvg4feucpxMgmEl0f7nc3cqKUdfxN/SXgiYkW",
+    "created_at": "2026-04-07T16:18:44.000Z",
+    "role": "user",
+    "is_blocked": 0
+  },
+  {
+    "id": 13,
+    "name": "Test User 1775669747687",
+    "email": "test1775669747687@example.com",
+    "phone": "0914926166",
+    "password_hash": "$2a$10$iIJt52cxCzifnIB9FYmQR.I5AYr2p6WXA4klpkTaUD9n/grSRQmVS",
+    "created_at": "2026-04-08T17:42:35.000Z",
+    "role": "user",
+    "is_blocked": 0
+  },
+  {
+    "id": 14,
+    "name": "Test User",
+    "email": "newuser123@example.com",
+    "phone": "09011112222",
+    "password_hash": "$2a$10$kB8DidpXulcYlddzkePh/OjM44c.SK/jp8GyPuS/ECca7sNBiASD.",
+    "created_at": "2026-04-09T14:27:18.000Z",
+    "role": "user",
+    "is_blocked": 0
+  },
+  {
+    "id": 15,
+    "name": "daniel",
+    "email": "daniel@gamil.com",
+    "phone": "08057356734",
+    "password_hash": "$2a$10$MCPm2LIRU7fth5IFCfrezecxlpp84.NbJy000pGSiLqQPhUfo292u",
+    "created_at": "2026-04-09T14:35:45.000Z",
+    "role": "user",
+    "is_blocked": 0
+  }
+]

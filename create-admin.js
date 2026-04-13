@@ -38,7 +38,7 @@ async function createAdmin() {
         const hashedPassword = await bcrypt.hash(ADMIN_PASSWORD, 12);
 
         await pool.execute(
-            'INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)',
+            'INSERT INTO users (name, email, password_hash, role) VALUES (?, ?, ?, ?)',
             [ADMIN_NAME, ADMIN_EMAIL, hashedPassword, 'admin']
         );
 

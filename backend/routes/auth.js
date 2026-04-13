@@ -31,7 +31,7 @@ router.post('/register', [
 
         // Insert user
         const [result] = await pool.execute(
-            'INSERT INTO users (name, email, password) VALUES (?, ?, ?)',
+            'INSERT INTO users (name, email, password_hash) VALUES (?, ?, ?)',
             [name, email, hashedPassword]
         );
 
@@ -68,7 +68,7 @@ router.post('/login', [
         }
 
         const user = users[0];
-        const isMatch = await bcrypt.compare(password, user.password);
+        const isMatch = await bcrypt.compare(password, user.password_hash || user.password || '');
 
         if (!isMatch) {
             return res.status(400).json({ message: 'Invalid credentials' });

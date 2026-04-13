@@ -39,6 +39,25 @@ async function runMigrations() {
             console.log('ℹ️  Migration: role column already exists');
         }
 
+        // Check if password_hash column exists
+        const [pwCols] = await pool.execute(`
+            SELECT COUNT(*) as count
+            FROM INFORMATION_SCHEMA.COLUMNS
+            WHERE TABLE_SCHEMA = DATABASE()
+              AND TABLE_NAME   = 'users'
+              AND COLUMN_NAME  = 'password_hash'
+        `);
+
+        if (pwCols[0].count === 0) {
+            await pool.execute(`
+                ALTER TABLE users
+                CHANGE COLUMN password password_hash VARCHAR(255) NOT NULL
+            `);
+            console.log('✅ Migration: renamed password to password_hash');
+        } else {
+            console.log('ℹ️  Migration: password_hash column already exists');
+        }
+
         // Create admin if not exists
         const [existing] = await pool.execute(
             'SELECT id FROM users WHERE email = ?', [ADMIN_EMAIL]
@@ -47,7 +66,7 @@ async function runMigrations() {
         if (existing.length === 0) {
             const hashed = await bcrypt.hash(ADMIN_PASSWORD, 12);
             await pool.execute(
-                'INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)',
+                'INSERT INTO users (name, email, password_hash, role) VALUES (?, ?, ?, ?)',
                 [ADMIN_NAME, ADMIN_EMAIL, hashed, 'admin']
             );
             console.log('✅ Admin user created:', ADMIN_EMAIL);
