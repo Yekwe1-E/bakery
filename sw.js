@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ndu-pastry-v1';
+const CACHE_NAME = 'ndu-pastry-v2';
 const ASSETS_TO_CACHE = [
     './',
     './index.html',
