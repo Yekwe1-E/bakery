@@ -1,0 +1,9 @@
+{
+  "name": "NDU Pastry",
+  "short_name": "NDU Pastry",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#e67e22",
+  "description": "Fresh from the Oven to Your Heart - Offline Ready"
+}

@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NDU Pastry | Fresh Baked Goods</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#e67e22">
 </head>
 <body>
     <!-- Navigation -->
@@ -99,35 +101,53 @@
         </div>
     </footer>
 
+    <script src="js/db.js"></script>
     <script src="js/main.js"></script>
     <script src="js/cart.js"></script>
     <script>
-        // Load featured products
+        // Load featured products — network first, IndexedDB fallback
         async function loadFeaturedProducts() {
+            let products = [];
+            const container = document.getElementById('featuredProducts');
+
             try {
                 const response = await fetch('/api/products?limit=4');
-                const products = await response.json();
-                
-                const container = document.getElementById('featuredProducts');
-                container.innerHTML = products.slice(0, 4).map(product => `
-                    <div class="product-card">
-                        <img src="${product.image}" alt="${product.name}" class="product-image">
-                        <div class="product-info">
-                            <div class="product-category">${product.category_name}</div>
-                            <h3 class="product-name">${product.name}</h3>
-                            <p class="product-description">${product.description.substring(0, 60)}...</p>
-                            <div class="product-footer">
-                                <span class="product-price">${product.price.toLocaleString()}</span>
-                                <button class="add-to-cart" onclick="addToCart(${product.id}, '${product.name}', ${product.price}, '${product.image}')">
-                                    Add to Cart
-                                </button>
-                            </div>
+                if (!response.ok) throw new Error('Network error');
+                const allProducts = await response.json();
+                products = allProducts.slice(0, 4);
+                // Cache all products for offline use
+                await dbHelper.cacheProducts(allProducts);
+            } catch (error) {
+                console.warn('Network failed. Loading from local cache.', error);
+                const localProducts = await dbHelper.getLocalProducts();
+                products = localProducts.slice(0, 4);
+            }
+
+            if (products.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align:center;grid-column:1/-1;padding:2rem;">
+                        <div style="font-size:3rem;">📶</div>
+                        <p style="margin-top:1rem;color:var(--gray);">Connect to the internet once to load and cache products.</p>
+                    </div>`;
+                return;
+            }
+
+            container.innerHTML = products.map(product => `
+                <div class="product-card">
+                    <img src="${product.image}" alt="${product.name}" class="product-image">
+                    <div class="product-info">
+                        <div class="product-category">${product.category_name}</div>
+                        <h3 class="product-name">${product.name}</h3>
+                        <p class="product-description">${product.description.substring(0, 60)}...</p>
+                        <div class="product-footer">
+                            <span class="product-price">₦${product.price.toLocaleString()}</span>
+                            <button class="add-to-cart" onclick="addToCart(${product.id}, '${product.name.replace(/'/g, "\\'")}', ${product.price}, '${product.image}')">
+                                Add to Cart
+                            </button>
                         </div>
                     </div>
-                `).join('');
-            } catch (error) {
-                console.error('Error loading products:', error);
-            }
+                </div>
+            `).join('');
         }
 
         loadFeaturedProducts();

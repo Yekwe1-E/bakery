@@ -62,6 +62,7 @@
         </div>
     </div>
 
+    <script src="js/db.js"></script>
     <script src="js/main.js"></script>
     <script src="js/cart.js"></script>
     <script>
@@ -115,6 +116,22 @@
                 phone: document.getElementById('phone').value
             };
 
+            // ─── Offline Handling ───────────────────────────────────────────
+            if (!navigator.onLine) {
+                try {
+                    await dbHelper.saveOfflineOrder(orderData);
+                    localStorage.removeItem('cart');
+                    showAlert('📶 You are offline. Your order has been saved locally and will be sent automatically when you reconnect!', 'success');
+                    setTimeout(() => window.location.href = 'index.html', 4000);
+                } catch (err) {
+                    showAlert('Failed to save order locally. Please try again.', 'error');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Place Order';
+                }
+                return;
+            }
+
+            // ─── Online: Submit to Server ────────────────────────────────────
             try {
                 const response = await fetch('/api/orders', {
                     method: 'POST',
@@ -135,9 +152,23 @@
                     throw new Error(data.message || 'Failed to place order');
                 }
             } catch (error) {
-                showAlert(error.message, 'error');
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Place Order';
+                // If the online send failed (network dropped mid-submit), save offline
+                if (!navigator.onLine || error.name === 'TypeError') {
+                    try {
+                        await dbHelper.saveOfflineOrder(orderData);
+                        localStorage.removeItem('cart');
+                        showAlert('Connection lost. Order saved locally and will sync when you reconnect.', 'success');
+                        setTimeout(() => window.location.href = 'index.html', 4000);
+                    } catch (dbErr) {
+                        showAlert('Could not save order. Please check your connection.', 'error');
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = 'Place Order';
+                    }
+                } else {
+                    showAlert(error.message, 'error');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Place Order';
+                }
             }
         });
 
